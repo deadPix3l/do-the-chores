@@ -1,0 +1,27 @@
+kitchen:
+  tasks:
+    - name: dishes
+      every: 3 days
+      subtasks:
+        - name: clean counter
+        - run dishwasher
+
+    - name: take out trash
+      every: wednesday night
+
+living room:
+  tasks:
+    - name: clean catboxes
+      every: 3 days
+
+basement:
+  tasks:
+    - name: water softener salt
+      every: month
+
+    - name: change air filter
+      every: month
+
+
+
+

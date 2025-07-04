@@ -1,0 +1,23 @@
+[project]
+name = "timebot"
+version = "0.1.0"
+description = "For scheduling real life things in yaml"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "pyyaml",
+    "pydantic>2",
+]
+
+[project.optional-dependencies]
+cli = [
+    "fire",
+]
+
+dev = [
+    "pytest",
+    "hypothesis",
+]
+
+[project.scripts]
+timebot-cf = "timebot.file:checkfile_cli"

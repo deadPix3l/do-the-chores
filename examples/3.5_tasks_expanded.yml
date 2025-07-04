@@ -1,0 +1,10 @@
+name: kitchen
+tasks:
+  - name: dishes
+    every: 3 days
+    subtasks:
+      - name: clean counter
+      - run dishwasher
+
+  - name: take out trash
+    every: wednesday night
