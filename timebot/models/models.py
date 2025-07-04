@@ -1,11 +1,11 @@
 from pydantic import BaseModel, RootModel, model_validator
-from enum import Enum
 from typing import Any
+
 
 class BasicTask(BaseModel):
     name: str
     every: str | None = None
-    subtasks: list['BasicTask'] | None = None
+    subtasks: list["BasicTask"] | None = None
     times: int = 1
 
     @model_validator(mode="before")
@@ -16,6 +16,7 @@ class BasicTask(BaseModel):
         if isinstance(data, dict):
             return data
         raise TypeError(f"Invalid task: {data}")
+
 
 class TaskList(BaseModel):
     name: str | None = None
@@ -34,9 +35,10 @@ class TaskList(BaseModel):
         elif isinstance(data, list):
             return {"tasks": data}
         elif isinstance(data, str):
-            return {"tasks": [data] }
+            return {"tasks": [data]}
         else:
             raise TypeError(f"Invalid section format: {data}")
+
 
 class TaskListGroups(BaseModel):
     groups: list[TaskList]
@@ -47,7 +49,7 @@ class TaskListGroups(BaseModel):
         """
         Accepts either:
         ```
-        - name: A    
+        - name: A
           tasks:
             - ...
         ```
@@ -62,16 +64,16 @@ class TaskListGroups(BaseModel):
             return {"groups": [data]}
 
         if isinstance(data, list):
-            return {"groups": [data] }
+            return {"groups": [data]}
 
         elif isinstance(data, dict):
             if "tasks" in data:
                 return {"groups": [data]}
 
             items = []
-            for k,v in data.items():
-                if not getattr(v, 'name', ''):
-                    v['name'] = k
+            for k, v in data.items():
+                if not getattr(v, "name", ""):
+                    v["name"] = k
                 items.append(v)
             return {"groups": items}
 
@@ -82,29 +84,29 @@ class TaskListGroups(BaseModel):
 class TopLevelFile(RootModel):
     root: dict[str, TaskList] | TaskList
 
-    #@model_validator(mode="before")
-    #@classmethod
-    #def parse_top_level(cls, data: Any):
-        #if isinstance(data, list):
-            #raise TypeError("not yet")
-        #if not isinstance(data, dict):
-            #raise TypeError("not dict")
+    # @model_validator(mode="before")
+    # @classmethod
+    # def parse_top_level(cls, data: Any):
+    # if isinstance(data, list):
+    # raise TypeError("not yet")
+    # if not isinstance(data, dict):
+    # raise TypeError("not dict")
 
-        #sections = []
-        #for section_name, section_value in data.items():
-            ## Build section including its name
-            #print(section_value)
-            ##breakpoint()
-            #sections.append(
-                #TaskSection(name=section_name, **section_value)
-            #)
-        #return {"sections": sections}
+    # sections = []
+    # for section_name, section_value in data.items():
+    ## Build section including its name
+    # print(section_value)
+    ##breakpoint()
+    # sections.append(
+    # TaskSection(name=section_name, **section_value)
+    # )
+    # return {"sections": sections}
 
-    #@model_validator(mode="before")
-    #@classmethod
-    #def parse_any(cls, data):
-        #if 'tasks' not in data.keys():
-            ## alternate syntax
-            #return for k,v in data.items():
+    # @model_validator(mode="before")
+    # @classmethod
+    # def parse_any(cls, data):
+    # if 'tasks' not in data.keys():
+    ## alternate syntax
+    # return for k,v in data.items():
 
-        #return data
+    # return data
